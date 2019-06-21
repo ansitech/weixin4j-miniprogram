@@ -35,15 +35,17 @@ import org.weixin4j.miniprogram.model.base.Token;
  * @author yangqisheng
  * @since 1.0.0
  */
-public class BaseComponent extends WeixinSupport {
+public class BaseComponent extends AbstractComponent {
 
     protected WeixinMiniprogram miniprogram;
 
-    public BaseComponent(WeixinMiniprogram weixin) {
-        if (miniprogram == null) {
-            throw new IllegalArgumentException("miniprogram can not be null");
-        }
-        this.miniprogram = weixin;
+    /**
+     * 小程序交互组件
+     *
+     * @param miniprogram 小程序对象
+     */
+    public BaseComponent(WeixinMiniprogram miniprogram) {
+        super(miniprogram);
     }
 
     /**

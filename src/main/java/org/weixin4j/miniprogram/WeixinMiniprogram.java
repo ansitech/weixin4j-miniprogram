@@ -77,8 +77,8 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
      * @param secret 小程序开发者秘钥
      */
     public WeixinMiniprogram(String appId, String secret) {
-        this.appId = Configuration.getAppId();
-        this.secret = Configuration.getSecret();
+        this.appId = appId;
+        this.secret = secret;
     }
 
     public String getAppId() {
@@ -117,7 +117,13 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
      * @since 1.0.0
      */
     public BaseComponent base() {
-        return baseComponent;
+        String key = BaseComponent.class.getName();
+        if (components.containsKey(key)) {
+            return (BaseComponent) components.get(key);
+        }
+        BaseComponent component = new BaseComponent(this);
+        components.put(key, component);
+        return component;
     }
 
     /**
