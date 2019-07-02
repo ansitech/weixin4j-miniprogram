@@ -37,8 +37,6 @@ import org.weixin4j.miniprogram.model.base.Token;
  */
 public class BaseComponent extends AbstractComponent {
 
-    protected WeixinMiniprogram miniprogram;
-
     /**
      * 小程序交互组件
      *
