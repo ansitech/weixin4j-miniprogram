@@ -1,4 +1,4 @@
-package org.weixin4j.miniprogram.model.sns;
+package org.weixin4j.miniprogram.model.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import org.weixin4j.miniprogram.WeixinException;

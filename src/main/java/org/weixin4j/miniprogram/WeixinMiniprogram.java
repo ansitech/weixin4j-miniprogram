@@ -19,16 +19,20 @@
  */
 package org.weixin4j.miniprogram;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.weixin4j.miniprogram.component.AbstractComponent;
-import org.weixin4j.miniprogram.component.BaseComponent;
-import org.weixin4j.miniprogram.component.SnsComponent;
+import org.weixin4j.miniprogram.component.AuthComponent;
+import org.weixin4j.miniprogram.component.TemplateMessageComponent;
 import org.weixin4j.miniprogram.component.WxacodeComponent;
+import org.weixin4j.miniprogram.http.HttpsClient;
+import org.weixin4j.miniprogram.http.Response;
 import org.weixin4j.miniprogram.loader.DefaultTokenLoader;
 import org.weixin4j.miniprogram.loader.ITokenLoader;
-import org.weixin4j.miniprogram.model.base.Token;
+import org.weixin4j.miniprogram.model.auth.Token;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 微信小程序基础支持对象
@@ -58,10 +62,6 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
      * 新增组件
      */
     private final Map<String, AbstractComponent> components = new HashMap<String, AbstractComponent>();
-    /**
-     * 基础组件
-     */
-    private final BaseComponent baseComponent = new BaseComponent(this);
 
     /**
      * 小程序，单一小程序
@@ -90,6 +90,42 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
     }
 
     /**
+     * 获取access_token（每次都获取新的，请缓存下来，2小时过期）
+     *
+     * @return 获取的AccessToken对象
+     * @throws org.weixin4j.miniprogram.WeixinException 微信操作异常
+     */
+    private Token token() throws WeixinException {
+        if (StringUtils.isEmpty(appId)) {
+            throw new IllegalArgumentException("appid can't be null or empty");
+        }
+        if (StringUtils.isEmpty(secret)) {
+            throw new IllegalArgumentException("secret can't be null or empty");
+        }
+        //拼接参数
+        String param = "?grant_type=client_credential&appid=" + appId + "&secret=" + secret;
+        //创建请求对象
+        HttpsClient http = new HttpsClient();
+        //调用获取access_token接口
+        Response res = http.get("https://api.weixin.qq.com/cgi-bin/token" + param);
+        //根据请求结果判定，是否验证成功
+        JSONObject jsonObj = res.asJSONObject();
+        if (jsonObj == null) {
+            throw new WeixinException(getCause(-1));
+        }
+        if (Configuration.isDebug()) {
+            System.out.println("getAccessToken返回json：" + jsonObj.toString());
+        }
+        Object errcode = jsonObj.get("errcode");
+        if (errcode != null) {
+            //返回异常信息
+            throw new WeixinException(getCause(jsonObj.getIntValue("errcode")));
+        }
+        //设置凭证，设置accessToken和过期时间
+        return (Token) JSONObject.toJavaObject(jsonObj, Token.class);
+    }
+
+    /**
      * 获取Token对象
      *
      * @return Token对象
@@ -102,7 +138,7 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
             synchronized (LOCK) {
                 token = tokenLoader.get();
                 if (token == null) {
-                    token = base().token();
+                    token = token();
                     tokenLoader.refresh(token);
                 }
             }
@@ -111,33 +147,17 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
     }
 
     /**
-     * 获取基础组件
-     *
-     * @return 基础组件
-     * @since 1.0.0
-     */
-    public BaseComponent base() {
-        String key = BaseComponent.class.getName();
-        if (components.containsKey(key)) {
-            return (BaseComponent) components.get(key);
-        }
-        BaseComponent component = new BaseComponent(this);
-        components.put(key, component);
-        return component;
-    }
-
-    /**
      * 获取用户信息组件
      *
      * @return 用户信息组件
-     * @since 1.0.0
+     * @since 1.0.2
      */
-    public SnsComponent sns() {
-        String key = SnsComponent.class.getName();
+    public AuthComponent auth() {
+        String key = AuthComponent.class.getName();
         if (components.containsKey(key)) {
-            return (SnsComponent) components.get(key);
+            return (AuthComponent) components.get(key);
         }
-        SnsComponent component = new SnsComponent(this);
+        AuthComponent component = new AuthComponent(this);
         components.put(key, component);
         return component;
     }
@@ -154,6 +174,23 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
             return (WxacodeComponent) components.get(key);
         }
         WxacodeComponent component = new WxacodeComponent(this);
+        components.put(key, component);
+        return component;
+    }
+
+
+    /**
+     * 获取模板消息组件
+     *
+     * @return 模板消息组件
+     * @since 1.0.2
+     */
+    public TemplateMessageComponent templateMessage() {
+        String key = TemplateMessageComponent.class.getName();
+        if (components.containsKey(key)) {
+            return (TemplateMessageComponent) components.get(key);
+        }
+        TemplateMessageComponent component = new TemplateMessageComponent(this);
         components.put(key, component);
         return component;
     }

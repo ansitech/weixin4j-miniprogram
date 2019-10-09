@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.weixin4j.miniprogram.model.base;
+package org.weixin4j.miniprogram.model.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import org.weixin4j.miniprogram.WeixinException;

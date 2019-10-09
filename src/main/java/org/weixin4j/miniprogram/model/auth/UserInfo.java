@@ -1,4 +1,4 @@
-package org.weixin4j.miniprogram.model.sns;
+package org.weixin4j.miniprogram.model.auth;
 
 /**
  * 小程序用户信息

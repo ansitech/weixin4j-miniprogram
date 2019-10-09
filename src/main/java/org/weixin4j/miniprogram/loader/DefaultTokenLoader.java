@@ -19,7 +19,7 @@
  */
 package org.weixin4j.miniprogram.loader;
 
-import org.weixin4j.miniprogram.model.base.Token;
+import org.weixin4j.miniprogram.model.auth.Token;
 import org.apache.commons.lang.StringUtils;
 
 /**

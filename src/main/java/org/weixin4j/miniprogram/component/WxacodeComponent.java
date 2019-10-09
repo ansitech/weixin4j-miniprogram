@@ -29,6 +29,7 @@ public class WxacodeComponent extends AbstractComponent {
      * @param scene 场景值，最大32个可见字符，只支持数字，大小写英文以及部分特殊字符
      * @throws org.weixin4j.miniprogram.WeixinException 微信操作异常
      * @return 小程序码
+     * @since 1.0.0
      */
     public Wxacode getUnlimited(String scene) throws WeixinException {
         return getUnlimited(scene, null);
@@ -44,6 +45,7 @@ public class WxacodeComponent extends AbstractComponent {
      * @param page 小程序页面路径，必须是已经发布的小程序存在的页面
      * @return 小程序码
      * @throws org.weixin4j.miniprogram.WeixinException 微信操作异常
+     * @since 1.0.0
      */
     public Wxacode getUnlimited(String scene, String page) throws WeixinException {
         return getUnlimited(scene, page, 430, false, new int[]{0, 0, 0}, false);
@@ -66,7 +68,7 @@ public class WxacodeComponent extends AbstractComponent {
      */
     public Wxacode getUnlimited(String scene, String page, int width, boolean auto_color, int[] rgb, boolean is_hyaline) throws WeixinException {
         if (scene == null || "".equals(scene)) {
-            throw new IllegalStateException("scene can  not be null or empty");
+            throw new IllegalStateException("scene can not be null or empty");
         }
         if (width < 280 || width > 1280) {
             throw new IllegalStateException("width超出280-1280范围");
