@@ -21,10 +21,7 @@ package org.weixin4j.miniprogram;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;
-import org.weixin4j.miniprogram.component.AbstractComponent;
-import org.weixin4j.miniprogram.component.AuthComponent;
-import org.weixin4j.miniprogram.component.TemplateMessageComponent;
-import org.weixin4j.miniprogram.component.WxacodeComponent;
+import org.weixin4j.miniprogram.component.*;
 import org.weixin4j.miniprogram.http.HttpsClient;
 import org.weixin4j.miniprogram.http.Response;
 import org.weixin4j.miniprogram.loader.DefaultTokenLoader;
@@ -191,6 +188,38 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
             return (TemplateMessageComponent) components.get(key);
         }
         TemplateMessageComponent component = new TemplateMessageComponent(this);
+        components.put(key, component);
+        return component;
+    }
+
+    /**
+     * 获取直播间组件
+     *
+     * @return 直播间组件
+     * @since 1.0.3
+     */
+    public LiveRoomComponent liveRoomComponent() {
+        String key = LiveRoomComponent.class.getName();
+        if (components.containsKey(key)) {
+            return (LiveRoomComponent) components.get(key);
+        }
+        LiveRoomComponent component = new LiveRoomComponent(this);
+        components.put(key, component);
+        return component;
+    }
+
+    /**
+     * 获取商品管理组件
+     *
+     * @return 直播间组件
+     * @since 1.0.3
+     */
+    public LiveGoodsComponent liveGoodsComponent() {
+        String key = LiveRoomComponent.class.getName();
+        if (components.containsKey(key)) {
+            return (LiveGoodsComponent) components.get(key);
+        }
+        LiveGoodsComponent component = new LiveGoodsComponent(this);
         components.put(key, component);
         return component;
     }
