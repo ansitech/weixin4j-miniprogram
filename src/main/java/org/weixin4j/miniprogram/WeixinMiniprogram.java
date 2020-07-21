@@ -119,7 +119,8 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
             throw new WeixinException(getCause(jsonObj.getIntValue("errcode")));
         }
         //设置凭证，设置accessToken和过期时间
-        return (Token) JSONObject.toJavaObject(jsonObj, Token.class);
+        //update at 1.0.3 因为 fastjson 1.2.68 直接转换JSON不走set方法
+        return new Token(jsonObj);
     }
 
     /**

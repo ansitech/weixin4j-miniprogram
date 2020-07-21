@@ -1,12 +1,13 @@
 package org.weixin4j.miniprogram.component;
 
 import com.alibaba.fastjson.JSONObject;
-import java.io.BufferedInputStream;
 import org.weixin4j.miniprogram.WeixinException;
 import org.weixin4j.miniprogram.WeixinMiniprogram;
 import org.weixin4j.miniprogram.http.HttpsClient;
 import org.weixin4j.miniprogram.http.Response;
 import org.weixin4j.miniprogram.model.wxacode.Wxacode;
+
+import java.io.BufferedInputStream;
 
 /**
  * 小程序码组件
@@ -88,7 +89,7 @@ public class WxacodeComponent extends AbstractComponent {
             rgbJson.put("r", rgb[0]);
             rgbJson.put("g", rgb[1]);
             rgbJson.put("b", rgb[2]);
-            postData.put("rgb", rgbJson);
+            postData.put("line_color", rgbJson);
         }
         postData.put("is_hyaline", is_hyaline);
         //创建请求对象
