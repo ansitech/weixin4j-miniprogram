@@ -183,6 +183,7 @@ public class LiveGoodsComponent extends AbstractComponent {
     /**
      * 更新商品
      *
+     * @param goodsId 商品ID
      * @param name 商品名称，最长14个汉字，1个汉字相当于2个字符
      * @param priceType 价格类型，1：一口价 2：价格区间 3：显示折扣价
      * @param price 价格1，数字，最多保留两位小数，单位元

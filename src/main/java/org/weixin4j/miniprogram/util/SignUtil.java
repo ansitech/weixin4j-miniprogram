@@ -37,13 +37,9 @@ public class SignUtil {
     /**
      * 生成小程序支付签名
      *
-     * 签名生成规则如下：
-     *
-     * paySign = MD5(appId=wxd678efh567hg6787&nonceStr=5K8264ILTKCH16CQ2502SI8ZNMTM67VS&package=prepay_id=wx2017033010242291fcfe0db70013231072&signType=MD5&timeStamp=1490840662&key=qazwsxedcrfvtgbyhnujmikolp111111)
-     *
-     * 22D9B4E54AB1950F51E0649E8810ACD6
-     *
      * @param appId 小程序IF
+     * @param prepayId 预下单ID
+     * @param mchKey 商户密钥
      * @return 成功返回授权签名对象，否则返回null
      * @since 1.0.3
      */
