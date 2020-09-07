@@ -183,6 +183,7 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
      * @return 模板消息组件
      * @since 1.0.2
      */
+    @Deprecated
     public TemplateMessageComponent templateMessage() {
         String key = TemplateMessageComponent.class.getName();
         if (components.containsKey(key)) {
@@ -221,6 +222,22 @@ public class WeixinMiniprogram extends WeixinSupport implements java.io.Serializ
             return (LiveGoodsComponent) components.get(key);
         }
         LiveGoodsComponent component = new LiveGoodsComponent(this);
+        components.put(key, component);
+        return component;
+    }
+
+    /**
+     * 获取订阅消息组件
+     *
+     * @return 订阅消息组件
+     * @since 1.0.4
+     */
+    public SubscribeMessageComponent subscribeMessageComponent() {
+        String key = SubscribeMessageComponent.class.getName();
+        if (components.containsKey(key)) {
+            return (SubscribeMessageComponent) components.get(key);
+        }
+        SubscribeMessageComponent component = new SubscribeMessageComponent(this);
         components.put(key, component);
         return component;
     }

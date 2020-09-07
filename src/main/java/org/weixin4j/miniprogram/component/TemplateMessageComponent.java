@@ -16,6 +16,7 @@ import java.util.List;
  * @author yangqisheng
  * @since 1.0.2
  */
+@Deprecated
 public class TemplateMessageComponent extends AbstractComponent {
 
     public TemplateMessageComponent(WeixinMiniprogram miniprogram) {
